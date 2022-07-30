@@ -1,0 +1,32 @@
+{
+  "name": "t5-messaging-server",
+  "version": "0.1.0",
+  "main": "src/index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "pm2-dev pm2.json",
+    "dev": "rollup -c rollup.config.js --environment NODE_ENV:local",
+    "dev:watch": "yarn dev -w",
+    "build": "rollup -c rollup.config.js --environment NODE_ENV=production",
+    "prod": "yarn db:push && yarn dev && pm2-runtime start pm2.json --env production && pm2 save -f",
+    "up": "docker-compose -f server.yml up -d",
+    "down": "docker-compose -f server.yml down --rmi local -v",
+    "docker:install": "docker pull node:16.15.1 && docker pull mysql && docker pull adminer",
+    "db:gen": "prisma generate",
+    "db:push": "prisma db push",
+    "postinstall": "prisma generate && prisma db push"
+  },
+  "dependencies": {
+    "@prisma/client": "4.1.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "lodash": "^4.17.21",
+    "pm2": "^5.2.0",
+    "prisma": "^4.1.0",
+    "socket.io": "^4.5.1",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "rollup": "^2.77.2"
+  }
+}
